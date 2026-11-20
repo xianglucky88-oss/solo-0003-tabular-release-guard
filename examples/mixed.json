@@ -1,0 +1,36 @@
+{
+  "table":"district-partial-v1","max_count":12,
+  "cells":[
+    {"id":"homes-total","count":1,"mode":"public"},
+    {"id":"homes-north","count":0,"mode":"masked"},
+    {"id":"homes-south","count":1,"mode":"masked"},
+    {"id":"meadow-total","count":5,"mode":"public"},
+    {"id":"meadow-a","count":3,"mode":"masked"},
+    {"id":"meadow-b","count":2,"mode":"public"},
+    {"id":"row0","count":11,"mode":"public"},
+    {"id":"row1","count":11,"mode":"public"},
+    {"id":"row2","count":9,"mode":"public"},
+    {"id":"col0","count":12,"mode":"public"},
+    {"id":"col1","count":8,"mode":"public"},
+    {"id":"col2","count":11,"mode":"public"},
+    {"id":"g00","count":4,"mode":"masked"},
+    {"id":"g01","count":3,"mode":"masked"},
+    {"id":"g02","count":4,"mode":"masked"},
+    {"id":"g10","count":4,"mode":"masked"},
+    {"id":"g11","count":3,"mode":"masked"},
+    {"id":"g12","count":4,"mode":"masked"},
+    {"id":"g20","count":4,"mode":"masked"},
+    {"id":"g21","count":2,"mode":"masked"},
+    {"id":"g22","count":3,"mode":"masked"}
+  ],
+  "relations":[
+    {"id":"homes-sum","total":"homes-total","terms":["homes-north","homes-south"]},
+    {"id":"meadow-sum","total":"meadow-total","terms":["meadow-a","meadow-b"]},
+    {"id":"row0-sum","total":"row0","terms":["g00","g01","g02"]},
+    {"id":"row1-sum","total":"row1","terms":["g10","g11","g12"]},
+    {"id":"row2-sum","total":"row2","terms":["g20","g21","g22"]},
+    {"id":"col0-sum","total":"col0","terms":["g00","g10","g20"]},
+    {"id":"col1-sum","total":"col1","terms":["g01","g11","g21"]},
+    {"id":"col2-sum","total":"col2","terms":["g02","g12","g22"]}
+  ]
+}

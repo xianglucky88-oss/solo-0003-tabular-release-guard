@@ -7,9 +7,12 @@
 ```sh
 python3 -X pycache_prefix=__pycache__ -m compileall -q release examples
 python3 -m examples.smoke
+python3 -m examples.partial
 ```
 
 冒烟流程经真实 WSGI 请求入口执行，使用临时 SQLite 并覆盖正常、拒绝和重新打开数据库后的读取。样例均为合成数据。
+
+`examples/partial.py` 用同一张含一个难判区域和一个独立简单区域的表（`examples/mixed.json`），在低预算（4）和充足预算（300）下各跑一次审核：低预算下简单区域的格子先得到结论，难判区域保持 `indeterminate`；同时核对重命名、重排不改变简单结论，且 `nodes_used` 从未超过预算。
 
 ## 启动服务
 

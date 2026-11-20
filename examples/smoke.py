@@ -23,7 +23,14 @@ def probe(request):
     assert request('POST', '/release/publications', reissue) == publication
     assert request('GET', '/release/publications/' + publication['id'], reopen=True) == publication
     request('GET', '/release/publications/absent', expected=404)
-    return {'review': 'pass', 'publish': 'pass', 'retrieve': 'pass', 'budget_holds': budget['decision'] == 'hold'}
+    partial = request('POST', '/release/reviews',
+                      {**json.loads(Path(__file__).with_name('mixed.json').read_text()), 'node_budget': 4})
+    assert partial['decision'] == 'hold' and partial['nodes_used'] <= 4
+    assert partial['cells']['meadow-a'] == 'uniquely_determined'
+    assert partial['cells']['homes-north'] == 'alternative_exists'
+    assert partial['cells']['g00'] == 'indeterminate'
+    return {'review': 'pass', 'publish': 'pass', 'retrieve': 'pass', 'budget_holds': budget['decision'] == 'hold',
+            'partial_progress': True}
 
 
 if __name__ == '__main__':
