@@ -1,0 +1,92 @@
+{
+  "task_source_schema_version": 1,
+  "cc_feedback_profile": "cc-feedback-2611",
+  "project_domain": "数据工程",
+  "project_subdirection": "其他",
+  "delivery_profile": "local-unadmitted",
+  "entities": [
+    {
+      "id": "table",
+      "label": "当前发布候选模型"
+    },
+    {
+      "id": "cell",
+      "label": "携带公开模式与真实合成计数的单元格"
+    },
+    {
+      "id": "equation",
+      "label": "公开边际关系"
+    },
+    {
+      "id": "domain",
+      "label": "整数变量在公开视角下的取值范围"
+    },
+    {
+      "id": "review",
+      "label": "受节点预算约束的审核结论"
+    },
+    {
+      "id": "publication",
+      "label": "只含可发布投影的不可变制品"
+    }
+  ],
+  "implemented_workflows": [
+    {
+      "id": "review",
+      "name": "review",
+      "entry": "POST /release/reviews",
+      "success": "对单表的已公开整数约束判断每个遮蔽项是否存在不同值的可行分配。",
+      "failure": "关系失衡返回 400；结论唯一或预算耗尽则给出 hold。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "service",
+        "model",
+        "constraints",
+        "review",
+        "search"
+      ]
+    },
+    {
+      "id": "publish",
+      "name": "publish",
+      "entry": "POST /release/publications",
+      "success": "对请求重新审核，仅保存去掉遮蔽计数和内部诊断的公开清单。",
+      "failure": "审核未放行则返回 400，不写入新制品。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "service",
+        "model",
+        "review",
+        "publication",
+        "store"
+      ]
+    },
+    {
+      "id": "retrieve",
+      "name": "retrieve",
+      "entry": "GET /release/publications/{id}",
+      "success": "从 SQLite 重读对外清单；仅改变原始遮蔽值不应改变同一公开清单的 ID。",
+      "failure": "未知 ID 返回 404。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "app",
+        "service",
+        "store"
+      ]
+    }
+  ],
+  "type_coverage_location": "See the adjacent candidate bank sidecar for local coverage assessment.",
+  "admission_note": "Source map describes implemented facts only, not platform readiness or formal capacity."
+}

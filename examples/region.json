@@ -1,0 +1,8 @@
+{
+  "table":"district-counts-v1","max_count":12,
+  "cells":[{"id":"district","count":9,"mode":"public"},
+    {"id":"ridge","count":2,"mode":"masked"},
+    {"id":"meadow","count":7,"mode":"masked"},
+    {"id":"inapplicable","count":0,"mode":"zero"}],
+  "relations":[{"id":"district-sum","total":"district","terms":["ridge","meadow","inapplicable"]}]
+}

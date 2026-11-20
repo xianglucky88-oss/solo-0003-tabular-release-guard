@@ -1,0 +1,119 @@
+{
+  "project_shape": "backend",
+  "modules": [
+    {
+      "id": "app",
+      "path": "release/app.py"
+    },
+    {
+      "id": "constraints",
+      "path": "release/constraints.py"
+    },
+    {
+      "id": "model",
+      "path": "release/model.py"
+    },
+    {
+      "id": "publication",
+      "path": "release/publication.py"
+    },
+    {
+      "id": "review",
+      "path": "release/review.py"
+    },
+    {
+      "id": "search",
+      "path": "release/search.py"
+    },
+    {
+      "id": "service",
+      "path": "release/service.py"
+    },
+    {
+      "id": "store",
+      "path": "release/store.py"
+    }
+  ],
+  "workflows": [
+    {
+      "id": "review",
+      "name": "review",
+      "entry": "POST /release/reviews",
+      "success": "对单表的已公开整数约束判断每个遮蔽项是否存在不同值的可行分配。",
+      "failure": "关系失衡返回 400；结论唯一或预算耗尽则给出 hold。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "service",
+        "model",
+        "constraints",
+        "review",
+        "search"
+      ]
+    },
+    {
+      "id": "publish",
+      "name": "publish",
+      "entry": "POST /release/publications",
+      "success": "对请求重新审核，仅保存去掉遮蔽计数和内部诊断的公开清单。",
+      "failure": "审核未放行则返回 400，不写入新制品。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "service",
+        "model",
+        "review",
+        "publication",
+        "store"
+      ]
+    },
+    {
+      "id": "retrieve",
+      "name": "retrieve",
+      "entry": "GET /release/publications/{id}",
+      "success": "从 SQLite 重读对外清单；仅改变原始遮蔽值不应改变同一公开清单的 ID。",
+      "failure": "未知 ID 返回 404。",
+      "verification": "python3 -m examples.smoke",
+      "steps": [
+        "提交请求或读取冻结成果",
+        "核对返回契约"
+      ],
+      "module_ids": [
+        "app",
+        "service",
+        "store"
+      ]
+    }
+  ],
+  "complexity": {
+    "mechanisms": [
+      {
+        "id": "review",
+        "workflow_ids": [
+          "review"
+        ],
+        "behavior": "对单表的已公开整数约束判断每个遮蔽项是否存在不同值的可行分配。"
+      },
+      {
+        "id": "publish",
+        "workflow_ids": [
+          "publish"
+        ],
+        "behavior": "对请求重新审核，仅保存去掉遮蔽计数和内部诊断的公开清单。"
+      },
+      {
+        "id": "retrieve",
+        "workflow_ids": [
+          "retrieve"
+        ],
+        "behavior": "从 SQLite 重读对外清单；仅改变原始遮蔽值不应改变同一公开清单的 ID。"
+      }
+    ]
+  }
+}

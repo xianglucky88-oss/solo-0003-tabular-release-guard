@@ -1,0 +1,23 @@
+{
+  "language": "Python",
+  "project_shape": "backend",
+  "source_extensions": [
+    ".py"
+  ],
+  "build_command": "python3 -X pycache_prefix=__pycache__ -m compileall -q release examples",
+  "testing": "deferred",
+  "workflow_checks": [
+    {
+      "workflow_id": "review",
+      "command": "python3 -m examples.smoke"
+    },
+    {
+      "workflow_id": "publish",
+      "command": "python3 -m examples.smoke"
+    },
+    {
+      "workflow_id": "retrieve",
+      "command": "python3 -m examples.smoke"
+    }
+  ]
+}
