@@ -32,6 +32,26 @@
   ],
   "implemented_workflows": [
     {
+      "id": "advice",
+      "name": "advice",
+      "entry": "POST /release/advice",
+      "success": "在不得改动的公开项与可额外遮蔽项之间给出遮蔽建议；每个建议视图都经同一审核函数验证。",
+      "failure": "请求越权返回 400；无可行组合或搜索未完成时明确说明，不给推荐。",
+      "verification": "python3 -m examples.advice",
+      "steps": [
+        "提交建议请求并给出必须保留项、可遮蔽项与发布价值",
+        "核对建议视图经现有审核放行"
+      ],
+      "module_ids": [
+        "advisor",
+        "service",
+        "model",
+        "review",
+        "search",
+        "constraints"
+      ]
+    },
+    {
       "id": "review",
       "name": "review",
       "entry": "POST /release/reviews",

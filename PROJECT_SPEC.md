@@ -4,6 +4,7 @@
 
 | API | 正常结果 | 异常结果 |
 | --- | --- | --- |
+| `POST /release/advice` | 在不得改动的公开项与可额外遮蔽项之间给出遮蔽建议；每个建议视图都经同一审核函数验证。 | 请求越权返回 400；无可行组合或搜索未完成时明确说明，不给推荐。 |
 | `POST /release/reviews` | 对单表的已公开整数约束判断每个遮蔽项是否存在不同值的可行分配。 | 关系失衡返回 400；结论唯一或预算耗尽则给出 hold。 |
 | `POST /release/publications` | 对请求重新审核，仅保存去掉遮蔽计数和内部诊断的公开清单。 | 审核未放行则返回 400，不写入新制品。 |
 | `GET /release/publications/{id}` | 从 SQLite 重读对外清单；仅改变原始遮蔽值不应改变同一公开清单的 ID。 | 未知 ID 返回 404。 |
@@ -11,6 +12,7 @@
 ## 源码边界
 
 - `release/app.py`
+- `release/advisor.py`
 - `release/constraints.py`
 - `release/model.py`
 - `release/publication.py`

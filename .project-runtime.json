@@ -8,6 +8,10 @@
   "testing": "deferred",
   "workflow_checks": [
     {
+      "workflow_id": "advice",
+      "command": "python3 -m examples.advice"
+    },
+    {
       "workflow_id": "review",
       "command": "python3 -m examples.smoke"
     },

@@ -1,3 +1,4 @@
+from .advisor import advise
 from .store import NotFound
 from .model import parse
 from .publication import manifest
@@ -5,6 +6,9 @@ from .review import review
 
 
 def dispatch(method, path, data, store):
+    if method == 'POST' and path == '/release/advice':
+        table, limit, cells, equations = parse(data)
+        return advise(table, limit, cells, equations, data)
     if method == 'POST' and path in ('/release/reviews', '/release/publications'):
         table, limit, cells, equations = parse(data)
         decision = review(limit, cells, equations, data.get('node_budget', 300))
