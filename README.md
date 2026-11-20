@@ -7,9 +7,10 @@
 ```sh
 python3 -X pycache_prefix=__pycache__ -m compileall -q release examples
 python3 -m examples.smoke
+python3 -m examples.cross_release
 ```
 
-冒烟流程经真实 WSGI 请求入口执行，使用临时 SQLite 并覆盖正常、拒绝和重新打开数据库后的读取。样例均为合成数据。
+冒烟流程经真实 WSGI 请求入口执行，使用临时 SQLite 并覆盖正常、拒绝和重新打开数据库后的读取。跨版演示覆盖：两版各自审核均放行但合并后遮蔽值被唯一推定、预算耗尽的独立结论、同名不同范围的合法分离与强行合并被拒、映射矛盾与私有计数回流拦截。样例均为合成数据。
 
 ## 启动服务
 

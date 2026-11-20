@@ -3,6 +3,7 @@ import json
 from wsgiref.simple_server import make_server
 
 from .service import dispatch
+from .crossreview import UnsupportedMapping
 from .store import NotFound, Store
 
 
@@ -27,6 +28,8 @@ def application(path):
                 result = dispatch(method, route, data, store)
         except NotFound as exc:
             result, status = {'error': str(exc)}, '404 Not Found'
+        except UnsupportedMapping as exc:
+            result, status = {'reason': 'unsupported_mapping', 'error': str(exc)}, '400 Bad Request'
         except (KeyError, TypeError, ValueError, AttributeError) as exc:
             result, status = {'error': f'invalid request: {exc}'}, '400 Bad Request'
         encoded = json.dumps(result, sort_keys=True, allow_nan=False).encode()

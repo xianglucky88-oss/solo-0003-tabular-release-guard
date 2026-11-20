@@ -12,6 +12,10 @@
       "command": "python3 -m examples.smoke"
     },
     {
+      "workflow_id": "cross-review",
+      "command": "python3 -m examples.cross_release"
+    },
+    {
       "workflow_id": "publish",
       "command": "python3 -m examples.smoke"
     },

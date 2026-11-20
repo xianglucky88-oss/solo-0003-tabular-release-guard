@@ -51,6 +51,27 @@
       ]
     },
     {
+      "id": "cross-review",
+      "name": "cross-review",
+      "entry": "POST /release/cross-reviews",
+      "success": "合并调用者提供的可核对跨版映射后，判断两版全部遮蔽项是否仍有不同值的可行分配，并区分确有风险、预算不足与映射不支持。",
+      "failure": "映射无法由公开证据支撑返回 400 且 reason=unsupported_mapping；预算耗尽给出 indeterminate；结论唯一给出 hold。",
+      "verification": "python3 -m examples.cross_release",
+      "steps": [
+        "读取已发布公开清单",
+        "校验并合并跨版映射",
+        "对合并约束系统做宽度检查"
+      ],
+      "module_ids": [
+        "service",
+        "model",
+        "crossreview",
+        "constraints",
+        "search",
+        "store"
+      ]
+    },
+    {
       "id": "publish",
       "name": "publish",
       "entry": "POST /release/publications",
