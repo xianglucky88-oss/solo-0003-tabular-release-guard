@@ -29,3 +29,36 @@ class Solver:
             stack.append({**reduced, key: (mid + 1, hi)})
             stack.append({**reduced, key: (lo, mid)})
         return False
+
+    def has_alternative(self, domains, key, observed):
+        """Legacy test: can the cell take at least one value other than observed?"""
+        lo, hi = domains[key]
+        for bounds in ((lo, observed - 1), (observed + 1, hi)):
+            if bounds[0] <= bounds[1] and self.feasible({**domains, key: bounds}):
+                return True
+        return False
+
+    def count_distinct(self, domains, key, observed, required):
+        """Count distinct feasible integers for one cell, stopping at required.
+
+        Values are tested individually, so integer holes are respected instead
+        of being approximated by ``max - min + 1``.  The observed assignment is
+        known to satisfy every relation (the parsed table balances), hence it is
+        counted as one candidate without spending budget.
+
+        Returns ``(found, exact)``.  ``found`` is a witnessed lower bound when
+        ``exact`` is false (the count reached ``required`` and enumeration
+        stopped); otherwise it is the exact number of feasible values.
+        """
+        lo, hi = domains[key]
+        if required <= 1:
+            return 1, False
+        count = 1
+        for value in range(lo, hi + 1):
+            if value == observed:
+                continue
+            if self.feasible({**domains, key: (value, value)}):
+                count += 1
+                if count >= required:
+                    return count, False
+        return count, True

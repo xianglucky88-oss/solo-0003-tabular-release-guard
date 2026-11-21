@@ -1,0 +1,10 @@
+{
+  "table":"candidate-pair-sparse","max_count":4,
+  "cells":[{"id":"c0","count":2,"mode":"masked"},
+    {"id":"c1","count":2,"mode":"masked"},
+    {"id":"c2","count":1,"mode":"masked"},
+    {"id":"c3","count":1,"mode":"masked"}],
+  "relations":[{"id":"split","total":"c0","terms":["c2","c3"]},
+    {"id":"equal","total":"c3","terms":["c2"]},
+    {"id":"mirror","total":"c1","terms":["c0"]}]
+}
